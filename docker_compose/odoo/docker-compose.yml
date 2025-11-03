@@ -21,6 +21,10 @@ services:
       - ../../src/configs/odoo.conf:/etc/odoo/odoo.conf:ro
       - ../../backups:/mnt/backups
       - ../../logs:/mnt/logs
+
+    command: >
+      python3 /opt/ocb/odoo-bin
+      -c /etc/odoo/odoo.conf
     networks:
       - backend
   nginx:
@@ -31,7 +35,7 @@ services:
     restart: unless-stopped
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     ports:
-      - "5433:81"
+      - "81:81"
     volumes:
       - ../../src:/app/src 
       - ../../.env:/app/.env
